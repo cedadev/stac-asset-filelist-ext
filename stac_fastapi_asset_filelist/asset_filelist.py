@@ -1,5 +1,5 @@
 # encoding: utf-8
-"""Asset Search Extension"""
+"""Asset File List Extension"""
 
 __author__ = "Rhys Evans"
 __date__ = "08 Jun 2023"
@@ -7,7 +7,7 @@ __copyright__ = "Copyright 2018 United Kingdom Research and Innovation"
 __license__ = "BSD - see LICENSE file in top-level package directory"
 __contact__ = "rhys.r.evans@stfc.ac.uk"
 
-from typing import List, Type, Union
+from typing import List, Type
 
 import attr
 from fastapi import APIRouter, FastAPI
@@ -17,9 +17,9 @@ from stac_fastapi.types.extension import ApiExtension
 from starlette.responses import JSONResponse, Response
 
 from .client import BaseAssetFileListClient
-from .types import Asset, GetAssetFileListRequest
+from .types import GetAssetFileListRequest
 
-CONFORMANCE_CLASSES = ["https://api.stacspec.org/v1.0.0-beta.2/asset-search"]
+CONFORMANCE_CLASSES = []
 
 
 @attr.s
@@ -53,7 +53,7 @@ class AssetFileListExtension(ApiExtension):
         self.router.add_api_route(
             name="Get Assets",
             path="/collections/{collection_id}/items/{item_id}/asset_filelist.json",
-            response_model=List[Asset]
+            response_model=dict
             if self.settings and self.settings.enable_response_models
             else None,
             response_class=self.response_class,
@@ -69,4 +69,4 @@ class AssetFileListExtension(ApiExtension):
 
     def register(self, app: FastAPI) -> None:
         self.register_get_asset_filelist()
-        app.include_router(self.router, tags=["Asset Search Extension"])
+        app.include_router(self.router, tags=["Asset File List Extension"])

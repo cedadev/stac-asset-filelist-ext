@@ -1,12 +1,7 @@
 """Base clients."""
 import abc
-from typing import List, Union
 
 import attr
-
-from .types import Asset
-
-NumType = Union[float, int]
 
 
 @attr.s  # type:ignore
@@ -19,7 +14,7 @@ class BaseAssetFileListClient(abc.ABC):
         collection_id: str,
         item_id: str,
         **kwargs,
-    ) -> List[Asset]:
+    ) -> dict:
         """item asset file list (GET).
 
         Called with `GET /collection/{collection_id}/items/{item_id}/asset_filelist.json`.
